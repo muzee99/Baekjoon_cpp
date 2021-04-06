@@ -1,4 +1,6 @@
 // BOJ11279_최대 힙
+// 2880KB
+// 16ms
 #include <iostream>
 #include <queue>
 
@@ -8,8 +10,7 @@ int N;
 priority_queue<int, vector<int>, less<int>> q;
 
 int main() {
-    cin.tie(NULL);
-	ios::sync_with_stdio(false);
+    cin.tie(NULL);ios::sync_with_stdio(false);cout.tie(NULL);
     cin >> N;
     for(int i=0; i<N; i++) {
         int x;
