@@ -10,4 +10,4 @@ int main() {
         for(auto e:cost) cout << e << " ";
         cout << "\n";
     }
-}
+}   
