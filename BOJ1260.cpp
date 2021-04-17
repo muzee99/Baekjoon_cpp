@@ -1,118 +1,48 @@
-#include <iostream>
-#include <queue>
-#include <vector>
-
+// BOJ1260_dfs와 bfs
+// 2152KB
+// 8ms
+#include <bits/stdc++.h>
 using namespace std;
-int M, N, V;
-int c[1001];
-vector<int> a[1001];
-
-void dfs(int x) {
-    if (c[x]) return;
-    c[x] = true;
-    cout << x << ' ';
-    for (int i = 0; i < a[x].size();i++) {
-        int y = a[x][i];
-        dfs(y);
+vector<int> chk(1001);
+void dfs(int a, vector<int> graph[]) {
+    if(chk[a]) return;
+    chk[a] = 1;
+    cout << a << " ";
+    for(int i=0; i<graph[a].size(); i++) {
+        dfs(graph[a][i], graph);
     }
 }
-
-void bfs(int start) {
+void bfs(int a, vector<int> graph[]) {
     queue<int> q;
-    q.push(start);
-    c[start] = true;
+    q.push(a);
+    chk[a] = 1;
+    cout << a << " ";
     while(!q.empty()) {
         int x = q.front();
-        cout << x << ' ';
         q.pop();
-        for(int i = 0; i<a[x].size(); i++) {
-            int y = a[x][i];
-            if(!c[y]){
+        for(int i=0; i<graph[x].size(); i++) {
+            int y = graph[x][i];
+            if(!chk[y]) {
                 q.push(y);
-                c[y] = true;
+                chk[y] = 1;
+                cout << y << " ";
             }
         }
     }
 }
-
-
-
 int main() {
-    int x, y;
-    cin >> M >> N >> V;
-    for(int i; i<N; i++){
+    int N,M,V;
+    cin >> N >> M >> V;
+    vector<int> node[N+1];
+    for(int i=0; i<M; i++) {
+        int x,y;
         cin >> x >> y;
-        a[x].push_back(y);
-        a[y].push_back(x);
+        node[x].push_back(y);
+        node[y].push_back(x);
     }
-    dfs(V);
-    cout << '\n';
-    for(int i = 0 ; i < 1001; i++) c[i] = 0;
-    bfs(V);
-    return 0;
+    for(int i=1; i<N+1; i++) sort(node[i].begin(), node[i].end());
+    dfs(V,node);
+    cout << "\n";
+    for(int i=0; i<N+1; i++) chk[i] = 0;
+    bfs(V,node);
 }
-/*
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
-#include <set>
-using namespace std;
-
-int nodeNum; //노드의 수
-int edgeNum; //간선의 수
-int c[1001];//방문처리를 위한 배열 
-int start; //시작 노드
-vector<int> a[1001]; //노드마다 인접노드 
-
-void dfs(int x){
-    if(c[x]) return;
-    c[x] = true;
-    cout<<x<<" ";
-    for(int i = 0 ; i<a[x].size();i++){
-        int y = a[x][i];
-        dfs(y);
-    }
-}
-
-void bfs(int start){
-    queue<int> q;
-    q.push(start);
-    c[start] = true;
-    while(!q.empty()){
-        int x = q.front();
-        q.pop();
-        printf("%d ",x);
-        for(int i =0; i < a[x].size();i++) {
-            int y = a[x][i];
-            if(!c[y]){
-                q.push(y);
-                c[y] = true;
-            }
-        }
-    }
-}
-
-int main(){
-    //cin.tie(NULL);
-    //ios::sync_with_stdio(false);
-    vector< pair<int,int> > temp;
-    set<int> s;
-    cin>>nodeNum>>edgeNum>>start;
-
-    for(int i = 0; i < edgeNum; i++){
-        int n1,n2;
-        cin>>n1>>n2;
-        a[n1].push_back(n2);
-        a[n2].push_back(n1);
-    }
-    for(auto i =s.begin(); i != s.end(); i ++)
-        sort(a[*i].begin(),a[*i].end());
-   
-    dfs(start);
-    cout<<"\n";
-    for(int i = 0 ; i < 1001; i++) c[i] = 0;
-    bfs(start);
-    cout<<"\n";
-}
-*/
